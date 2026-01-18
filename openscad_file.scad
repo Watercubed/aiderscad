@@ -1,37 +1,52 @@
-// Simple Box Model
+// Simple Robot Arm Model
 
-// Define box dimensions
-box_length = 100;
-box_width = 80;
-box_height = 60;
+// Define dimensions
+base_height = 20;
+shoulder_radius = 25;
+upper_arm_length = 80;
+lower_arm_length = 70;
+gripper_length = 15;
+gripper_width = 10;
+gripper_height = 8;
 
-// Create the box
-cube([box_length, box_width, box_height], center=true);
+// Base plate
+translate([0, 0, base_height/2])
+    cylinder(h=base_height, r=shoulder_radius + 10, $fn=64);
 
-// Optional: Add some styling with a hole in the center
-translate([0, 0, box_height/2 - 5])
-    cylinder(h=10, r=20, $fn=32);
+// Shoulder joint
+translate([0, 0, base_height])
+    cylinder(h=shoulder_radius, r=shoulder_radius, $fn=64);
 
-// Add symmetrical wheels on bottom
-wheel_radius = 10;
-wheel_thickness = 5;
+// Upper arm
+translate([0, 0, base_height + shoulder_radius])
+    rotate([0, 90, 0])
+        cylinder(h=upper_arm_length, r=10, $fn=32);
 
-// Front left wheel
-translate([-box_length/2 + 20, box_width/2 - 15, -box_height/2])
-    rotate([90, 0, 0])
-        cylinder(h=wheel_thickness, r=wheel_radius, $fn=32);
+// Lower arm  
+translate([0, 0, base_height + shoulder_radius + upper_arm_length/2])
+    rotate([0, 90, 0])
+        cylinder(h=lower_arm_length, r=8, $fn=32);
 
-// Front right wheel  
-translate([box_length/2 - 20, box_width/2 - 15, -box_height/2])
-    rotate([90, 0, 0])
-        cylinder(h=wheel_thickness, r=wheel_radius, $fn=32);
+// Gripper base
+translate([0, 0, base_height + shoulder_radius + upper_arm_length + lower_arm_length/2 - gripper_length/2])
+    cube([gripper_width, gripper_length, gripper_height], center=true);
 
-// Back left wheel
-translate([-box_length/2 + 20, -box_width/2 + 15, -box_height/2])
-    rotate([90, 0, 0])
-        cylinder(h=wheel_thickness, r=wheel_radius, $fn=32);
+// Left gripper finger
+translate([0, -gripper_width/2, base_height + shoulder_radius + upper_arm_length + lower_arm_length/2 - gripper_length/2])
+    rotate([0, 90, 0])
+        cylinder(h=gripper_length, r=3, $fn=16);
 
-// Back right wheel
-translate([box_length/2 - 20, -box_width/2 + 15, -box_height/2])
-    rotate([90, 0, 0])
-        cylinder(h=wheel_thickness, r=wheel_radius, $fn=32);
+// Right gripper finger
+translate([0, gripper_width/2, base_height + shoulder_radius + upper_arm_length + lower_arm_length/2 - gripper_length/2])
+    rotate([0, 90, 0])
+        cylinder(h=gripper_length, r=3, $fn=16);
+
+// Joint connections
+translate([0, 0, base_height + shoulder_radius/2])
+    sphere(r=shoulder_radius/4, $fn=32);
+    
+translate([0, 0, base_height + shoulder_radius + upper_arm_length/2])
+    sphere(r=8/4, $fn=32);
+
+translate([0, 0, base_height + shoulder_radius + upper_arm_length + lower_arm_length/2])
+    sphere(r=8/4, $fn=32);
