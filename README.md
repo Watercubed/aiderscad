@@ -2,6 +2,8 @@
 
 This project creates a 3D visualization of p orbitals using OpenSCAD. The visualization shows the three main orientations of p orbitals (px, py, and pz) with different colors for clarity.
 
+[Screencast From 2026-01-18 16-23-51.webm](https://github.com/user-attachments/assets/5fcff867-4e2c-4600-9072-7cd39e9115fe)
+
 ## Overview
 
 The script generates a 3D model representing p orbitals in their standard orientations:
